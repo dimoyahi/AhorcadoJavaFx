@@ -1,6 +1,6 @@
 Juego del Ahorcado - Versión: 1.0.
 Copyleft 2017 - Jesús Cuerda - Todos los errores reservados.
-Aplicación gratuita y sin publicidad.
+
 Esta aplicación revive el clásico juego de lápiz y papel 'El Ahorcado'.
 Aplicación gratuita y sin publicidad.
 
