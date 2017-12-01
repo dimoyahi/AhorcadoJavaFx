@@ -1,16 +1,17 @@
 package misClases;
 
-import javafx.geometry.*;
-import javafx.scene.*;
-import javafx.scene.control.*;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.layout.*;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
-import javafx.stage.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class WindowHelp {
 

@@ -1,27 +1,36 @@
-import java.io.File;
 import java.io.FileInputStream;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.*;
-import javafx.scene.control.*;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.*;
-import javafx.scene.shape.*;
-import javafx.scene.text.*;
-import javafx.stage.*;
-import javax.sound.sampled.*;
-import javax.sound.sampled.DataLine.Info;
-
-import misClases.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
+import misClases.Juego;
+import misClases.Sound;
+import misClases.WindowAbout;
+import misClases.WindowHelp;
+import misClases.WindowMessage;
 
 public class Ahorcado extends Application {
 
@@ -92,7 +101,7 @@ public class Ahorcado extends Application {
         MenuItem itemExit = new MenuItem("Exit");
         itemExit.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
         //~ itemExit.setOnAction(actionEvent -> Platform.exit());
-        itemExit.setOnAction(actionEvent -> System.exit(0));
+        itemExit.setOnAction(e -> System.exit(0));
         menuGame.getItems().addAll(itemNew, itemMarcas, itemMute,
             separator, itemExit);
 
@@ -207,10 +216,10 @@ public class Ahorcado extends Application {
             nuevoJuego.setPalRayada(parole);
             textSecret.setText(nuevoJuego.getPalRayada());
             // game over: gana
-            boolean victoria = false;
             int totalAciertos = 0;
             for (int i = 0; i < arraySecreto.length; i++) {
-                if (arraySecreto[i] != "_") {
+                //~ if (arraySecreto[i] != "_") {
+                if (arraySecreto[i].equals("_")){
                     totalAciertos += 1;
                 }
             }
