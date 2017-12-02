@@ -7,7 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.FileReader;
 import java.io.Writer;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -197,27 +197,27 @@ public class Juego {
         return palabraUp;
     }
 
-	// Método para recuperar la palabra secreta
-	public String getPalabraSecreta() {
-		return palabraSecreta;
-	}
-	// Método para establecer una nueva palabra secreta  ??
-	//~ public void setPalabraSecreta(String nuevaPalabra) {
-		//~ palabraSecreta = nuevaPalabra;
-	//~ }
+    // Método para recuperar la palabra secreta
+    public String getPalabraSecreta() {
+        return palabraSecreta;
+    }
+    // Método para establecer una nueva palabra secreta  ??
+    //~ public void setPalabraSecreta(String nuevaPalabra) {
+        //~ palabraSecreta = nuevaPalabra;
+    //~ }
 
-	// Método para recuperar número de errores
-	public int getErroresCometidos() {
-		return erroresCometidos;
-	}
+    // Método para recuperar número de errores
+    public int getErroresCometidos() {
+        return erroresCometidos;
+    }
     // Método para reiniciar número de errores
     public void resetErrores () {
         erroresCometidos = 0;
     }
-	// Método para actualizar número de errores
-	public void setErroresCometidos() {
-		erroresCometidos++;
-	}
+    // Método para actualizar número de errores
+    public void setErroresCometidos() {
+        erroresCometidos++;
+    }
 
     // Método para ocultar palabra secreta
     public String[] ocultarPalabra (String palSec) {
@@ -281,15 +281,18 @@ public class Juego {
         File fileMarcador = new File(pathDir, fileName);
         if (fileMarcador.exists() && fileMarcador.canRead()) {
             try {
-                FileInputStream archivo = new FileInputStream("./config/.conf.txt");
+                //FileInputStream archivo = new FileInputStream("./config/.conf.txt");
+                File archivo = new File("./config/.conf.txt");
+                //~ BufferedReader buffer = new BufferedReader(
+                    //~ new InputStreamReader(archivo));
                 BufferedReader buffer = new BufferedReader(
-                    new InputStreamReader(archivo));
+                    new FileReader(archivo));
                 String linea;
                 String marcas = "";
                 while ((linea = buffer.readLine()) != null) {
                     marcas += linea + "-";
                 }
-                archivo.close();
+                buffer.close();
                 // set victorias y derrotas
                 String marcasSin = marcas.substring(0, marcas.length()-1);
                 int guionPos = marcasSin.indexOf('-');
@@ -322,7 +325,7 @@ public class Juego {
             String content = win + "\n" + los;
             output.write(content);
             output.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
