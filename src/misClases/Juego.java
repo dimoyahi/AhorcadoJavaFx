@@ -278,13 +278,10 @@ public class Juego {
         String dirName = "config";
         String fileName = ".conf.txt";
         File pathDir = new File(dirName);
-        File fileMarcador = new File(pathDir, fileName);
-        if (fileMarcador.exists() && fileMarcador.canRead()) {
+        File archivo = new File(pathDir, fileName);
+
+        if (archivo.exists() && archivo.canRead()) {
             try {
-                //FileInputStream archivo = new FileInputStream("./config/.conf.txt");
-                File archivo = new File("./config/.conf.txt");
-                //~ BufferedReader buffer = new BufferedReader(
-                    //~ new InputStreamReader(archivo));
                 BufferedReader buffer = new BufferedReader(
                     new FileReader(archivo));
                 String linea;

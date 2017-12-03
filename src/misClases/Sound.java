@@ -33,10 +33,6 @@ public enum Sound {
             } else {
                 throw new RuntimeException("Sound: file not found: " + fileName);
             }
-            //~ URL url = this.getClass().getClassLoader().getResource(fileName);
-            //~ AudioInputStream sound = AudioSystem.getAudioInputStream(url);
-            //~ clip = AudioSystem.getClip();
-            //~ clip.open(sound);
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
             throw new RuntimeException("Sound: Unsupported Audio File: " + e);
@@ -58,9 +54,6 @@ public enum Sound {
             clip.start();
         }
     }
-    //~ public void loop(){
-        //~ clip.loop(Clip.LOOP_CONTINUOUSLY);
-    //~ }
     public void stop(){
         clip.stop();
     }

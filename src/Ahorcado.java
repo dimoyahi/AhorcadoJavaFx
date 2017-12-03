@@ -219,7 +219,7 @@ public class Ahorcado extends Application {
             int totalAciertos = 0;
             for (int i = 0; i < arraySecreto.length; i++) {
                 //~ if (arraySecreto[i] != "_") {
-                if (arraySecreto[i].equals("_")){
+                if (!arraySecreto[i].equals("_")){
                     totalAciertos += 1;
                 }
             }
