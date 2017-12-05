@@ -3,11 +3,10 @@ package misClases;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.FileReader;
 import java.io.Writer;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -193,6 +192,7 @@ public class Juego {
                     break;
         }
         String palabraUp = palabra.toUpperCase();
+        // establece la palabra secreta
         palabraSecreta = palabraUp;
         return palabraUp;
     }
@@ -201,10 +201,6 @@ public class Juego {
     public String getPalabraSecreta() {
         return palabraSecreta;
     }
-    // Método para establecer una nueva palabra secreta  ??
-    //~ public void setPalabraSecreta(String nuevaPalabra) {
-        //~ palabraSecreta = nuevaPalabra;
-    //~ }
 
     // Método para recuperar número de errores
     public int getErroresCometidos() {
@@ -278,12 +274,31 @@ public class Juego {
         String dirName = "config";
         String fileName = ".conf.txt";
         File pathDir = new File(dirName);
-        File archivo = new File(pathDir, fileName);
+        File fileMarcador = new File(pathDir, fileName);
 
-        if (archivo.exists() && archivo.canRead()) {
+        //Get file from resources folder
+        //~ ClassLoader classLoader = getClass().getClassLoader();
+        //~ File archivoConf = new File(classLoader
+            //~ .getResource("res/config/.conf.txt")
+            //~ .getFile());
+
+        //~ ClassLoader classLoader = getClass().getClassLoader();
+        //~ File archivoConf = new File(getClass()
+            //~ .getResource("../res/config/.conf.txt")
+            //~ .getFile());
+        File archivoConf = new File("config/.conf.txt");
+        //~ if (archivoConf.exists()){
+        if (fileMarcador.exists() && fileMarcador.canRead()) {
             try {
+                File archivo = new File("./config/.conf.txt");
                 BufferedReader buffer = new BufferedReader(
                     new FileReader(archivo));
+                //~ BufferedReader buffer = new BufferedReader(
+                    //~ new FileReader(archivo));
+                //~ InputStream archivo = getClass()
+                    //~ .getResourceAsStream("/res/config/.conf.txt");
+                //~ BufferedReader buffer = new BufferedReader(
+                    //~ new InputStreamReader(archivo));
                 String linea;
                 String marcas = "";
                 while ((linea = buffer.readLine()) != null) {
@@ -303,6 +318,7 @@ public class Juego {
                 e.printStackTrace();
             }
         } else {
+            System.out.println("NO ENCONTRADO : NUEVO");
             escribirArchivo(0, 0);
         }
     }
@@ -319,6 +335,13 @@ public class Juego {
             File pathDir = new File(dirName);
             File file = new File(pathDir, fileName);
             Writer output = new BufferedWriter(new FileWriter(file));
+
+            //Get file from resources folder
+            //~ ClassLoader classLoader = getClass().getClassLoader();
+            //~ File archivo = new File(classLoader
+                //~ .getResource("res/config/.conf.txt")
+                //~ .getFile());
+            //~ Writer output = new BufferedWriter(new FileWriter(archivo));
             String content = win + "\n" + los;
             output.write(content);
             output.close();
@@ -338,45 +361,58 @@ public class Juego {
         iconos.setAlignment(Pos.CENTER);
         ImageView imageViewV;
         ImageView imageViewD;
-        try {
-            Image imageV = new Image(
-                new FileInputStream("./res/img/triunfos.png"));
+        //~ try {
+            //~ Image imageV = new Image(
+                //~ new FileInputStream("res/img/triunfos.png"));
+            Image imageV = new Image(this.getClass()
+                .getResourceAsStream("/res/img/triunfos.png"));
+
             imageViewV = new ImageView(imageV);
             imageViewV.setFitHeight(64);
             imageViewV.setFitWidth(64);
             imageViewV.setPreserveRatio(true);
             iconos.getChildren().add(imageViewV);
-        } catch (FileNotFoundException ex) {
-            // insert code to run when exception occurs
-            System.out.println(ex.getMessage());
-        }
-        try {
-            Image imageD = new Image(
-                new FileInputStream("./res/img/derrotas.png"));
+        //~ } catch (FileNotFoundException ex) {
+            //~ System.out.println(ex.getMessage());
+        //~ }
+        //~ } catch (IOException e) {
+            //~ e.printStackTrace();
+        //~ }
+
+        //~ try {
+            //~ Image imageD = new Image(
+                //~ new FileInputStream("res/img/derrotas.png"));
+            Image imageD = new Image(this.getClass()
+                .getResourceAsStream("/res/img/derrotas.png"));
             imageViewD = new ImageView(imageD);
             imageViewD.setFitHeight(64);
             imageViewD.setFitWidth(64);
             imageViewD.setPreserveRatio(true);
                   iconos.getChildren().add(imageViewD);
-        } catch (FileNotFoundException ex){
-            System.out.println(ex.getMessage());
-        }
+        //~ } catch (FileNotFoundException ex){
+            //~ System.out.println(ex.getMessage());
+        //~ }
 
         Label lblV = new Label();
         String vic = String.valueOf(victorias);
         lblV.setText(vic);
-        lblV.setFont(Font.loadFont("file:./res/fonts/tiza.ttf", 38));
+        //~ lblV.setFont(Font.loadFont("file:res/fonts/tiza.ttf", 38));
+        Font customFont = Font.loadFont(Juego.this.getClass()
+            .getResource("/res/fonts/tiza.ttf").toExternalForm(), 38);
+        lblV.setFont(customFont);
         lblV.setAlignment(Pos.CENTER);
 
         Label guion = new Label();
         guion.setText(" - ");
-        guion.setFont(Font.loadFont("file:./res/fonts/tiza.ttf", 38));
+        //~ guion.setFont(Font.loadFont("file:res/fonts/tiza.ttf", 38));
+        guion.setFont(customFont);
         guion.setAlignment(Pos.CENTER);
 
         Label lblD = new Label();
         String der = String.valueOf(derrotas);
         lblD.setText(der);
-        lblD.setFont(Font.loadFont("file:./res/fonts/tiza.ttf", 38));
+        //~ lblD.setFont(Font.loadFont("file:res/fonts/tiza.ttf", 38));
+        lblD.setFont(customFont);
         //~ lblD.setStyle("-fx-color: #121");
         //~ lblD.setTextFill(Color.web("#121"));
         lblD.setAlignment(Pos.CENTER);

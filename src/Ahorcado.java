@@ -1,4 +1,3 @@
-import java.io.FileInputStream;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -50,14 +49,20 @@ public class Ahorcado extends Application {
         nuevoJuego.getMarcador();
 
         // Imagen central
-        Image image = new Image(new FileInputStream("./res/img/7.png") );
+        //~ Image image = new Image(new FileInputStream("res/img/7.png"));
+        Image image = new Image(getClass()
+            .getResourceAsStream("res/img/7.png"));
         imageView = new ImageView(image);
         imageView.setFitHeight(403);
         imageView.setFitWidth(435);
         imageView.setPreserveRatio(true);
 
         // Letras
-        textSecret.setFont(Font.loadFont("file:./res/fonts/tiza.ttf", 38));
+        //~ textSecret.setFont(Font.loadFont("file:res/fonts/tiza.ttf", 38));
+        Font customFont = Font.loadFont(Ahorcado.this.getClass()
+            .getResource("res/fonts/tiza.ttf").toExternalForm(), 38);
+        textSecret.setFont(customFont);
+
         textSecret.setTextFill(Color.web("#FFFFFF"));
         textSecret.setTextAlignment(TextAlignment.CENTER);
         textSecret.setText("AHORCADO");
@@ -88,19 +93,17 @@ public class Ahorcado extends Application {
         itemMute.setSelected(true);
         itemMute.setOnAction( e-> {
             if (itemMute.isSelected() == true) {
-                System.out.println("SONIDO");
                 Sound.volume = Sound.Volume.LOW;
             } else {
-                System.out.println("MUTE");
                 Sound.volume = Sound.Volume.MUTE;
             }
         });
+
         // separador
         SeparatorMenuItem separator= new SeparatorMenuItem();
         // ítem salir
         MenuItem itemExit = new MenuItem("Exit");
         itemExit.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
-        //~ itemExit.setOnAction(actionEvent -> Platform.exit());
         itemExit.setOnAction(e -> System.exit(0));
         menuGame.getItems().addAll(itemNew, itemMarcas, itemMute,
             separator, itemExit);
@@ -122,7 +125,11 @@ public class Ahorcado extends Application {
         topMenu.getChildren().add(menuBar);
 
         // Icono Pista
-        Image imgHelp = new Image(new FileInputStream("./res/img/pista.png"));
+        //~ Image imgHelp = new Image(new FileInputStream("res/img/pista.png"));
+        Image imgHelp = new Image(
+            getClass().getResourceAsStream("res/img/pista.png")
+        );
+
         viewHelp = new ImageView(imgHelp);
         viewHelp.setFitHeight(32);
         viewHelp.setFitWidth(32);
@@ -182,10 +189,17 @@ public class Ahorcado extends Application {
             nuevoJuego.setErroresCometidos();
             int errores = nuevoJuego.getErroresCometidos() + 1;
             if(errores <= 6){
+
                 //sonido fallo
                 Sound.SOUNDERROR.play();
-                imageView.setImage(new Image(
-                    "file:./res/img/" + errores + ".png"));
+
+                //~ imageView.setImage(new Image(
+                    //~ "file:res/img/" + errores + ".png"));
+                Image image = new Image(getClass()
+                    .getResourceAsStream("res/img/" + errores + ".png")
+                );
+                imageView.setImage(image);
+
                 if(errores == 6){
                     Lighting lighting = new Lighting();
                     lighting.setDiffuseConstant(1.0);
@@ -196,9 +210,14 @@ public class Ahorcado extends Application {
                     viewHelp.setEffect(lighting);
                 }
             } else {
+                Image imageOver = new Image(getClass()
+                    .getResourceAsStream("res/img/7.png"));
+                imageView.setImage(imageOver);
                 // Ventana HAS PERDIDO LA PALABRA ERA... ¿OTRA?
+
                 //sonido game over
                 Sound.SOUNDOVER.play();
+
                 nuevoJuego.gameWin(false);
                 String msgGameOver = "La palabra era " + palabra;
                 WindowMessage.show(msgGameOver, "AHORCADO");
@@ -225,8 +244,10 @@ public class Ahorcado extends Application {
             }
             if (totalAciertos == palabra.length()){
                 nuevoJuego.gameWin(true);
+
                 //sonido victoria
                 Sound.SOUNDWIN.play();
+
                 String msgGameOver = "Enhorabuena, has ganado";
                 WindowMessage.show(msgGameOver, "AHORCADO");
                 reset();
@@ -239,17 +260,13 @@ public class Ahorcado extends Application {
 
     public HBox addHBox(String teclasX) {
         HBox tecladoR = new HBox();
-        //tecladoR.setPadding(new Insets(15, 12, 15, 12));
         tecladoR.setSpacing(2);
-        //tecladoR.setStyle("-fx-background-color: #336699;");
         tecladoR.setAlignment(Pos.CENTER);
-
         String[] teclado1 = teclasX.split("");
         for (String tec: teclado1){
             Button nameBtn = new Button(" _" + tec + " ");
             nameBtn.setPrefSize(40, 40);
             nameBtn.setStyle("-fx-cursor: hand;");
-            //nameBtn.setStyle("-fx-padding: 10;");
             tecladoR.getChildren().add(nameBtn);
             nameBtn.setOnAction(e -> {
                 nameBtn.setDisable(true);
@@ -261,7 +278,10 @@ public class Ahorcado extends Application {
 
     public void reset(){
         // reiniciar imagen
-        imageView.setImage(new Image("file:./res/img/1.png"));
+        //~ imageView.setImage(new Image("file:res/img/1.png"));
+        Image image = new Image(getClass()
+            .getResourceAsStream("res/img/1.png"));
+        imageView.setImage(image);
         // obtener palabra al azar del banco
         String palNueva = nuevoJuego.obtenerPalabra();
         // ocultar palabra
