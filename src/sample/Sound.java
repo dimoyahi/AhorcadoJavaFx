@@ -1,17 +1,17 @@
-package misClases;
+package sample;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 
 public enum Sound {
 
-    SOUNDERROR("/res/media/error.wav"),
-    SOUNDACIERTO("/res/media/acierto.wav"),
-    SOUNDWIN("/res/media/victoria.wav"),
-    SOUNDOVER("/res/media/gameover.wav");
+    SOUNDERROR("resources/media/error.wav"),
+    SOUNDACIERTO("resources/media/acierto.wav"),
+    SOUNDWIN("resources/media/victoria.wav"),
+    SOUNDOVER("resources/media/gameover.wav");
 
     public static enum Volume {
         MUTE, LOW, MEDIUM, HIGH
@@ -30,7 +30,7 @@ public enum Sound {
                 clip.open(sound);
             }
         } catch (Exception e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
 
     }
@@ -49,10 +49,11 @@ public enum Sound {
         clip.stop();
     }
     //~ public void mute() {
-        //~ volume = Volume.MUTE;
+    //~ volume = Volume.MUTE;
     //~ }
     // Optional static method to pre-load all the sound files.
     static void init() {
         values(); // calls the constructor for all the elements
     }
+
 }

@@ -1,4 +1,4 @@
-package misClases;
+package sample;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,7 +14,7 @@ public class WindowMessage {
 
     public static void show(String message, String title) {
 
-        Stage stage = new Stage();
+        final Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle(title);
         stage.setMinWidth(350);
@@ -39,4 +39,5 @@ public class WindowMessage {
         stage.setScene(scene);
         stage.showAndWait();
     }
+
 }

@@ -1,15 +1,13 @@
+package sample;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.*;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
@@ -25,13 +23,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import misClases.Juego;
-import misClases.Sound;
-import misClases.WindowAbout;
-import misClases.WindowHelp;
-import misClases.WindowMessage;
 
-public class Ahorcado extends Application {
+public class Main extends Application {
 
     Juego nuevoJuego = new Juego();
 
@@ -44,14 +37,15 @@ public class Ahorcado extends Application {
     ImageView viewHelp;
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception{
+
         // recuperar marcador (leer archivo)
         nuevoJuego.getMarcador();
 
         // Imagen central
         //~ Image image = new Image(new FileInputStream("res/img/7.png"));
         Image image = new Image(getClass()
-            .getResourceAsStream("res/img/7.png"));
+                .getResourceAsStream("resources/img/7.png"));
         imageView = new ImageView(image);
         imageView.setFitHeight(403);
         imageView.setFitWidth(435);
@@ -59,8 +53,8 @@ public class Ahorcado extends Application {
 
         // Letras
         //~ textSecret.setFont(Font.loadFont("file:res/fonts/tiza.ttf", 38));
-        Font customFont = Font.loadFont(Ahorcado.this.getClass()
-            .getResource("res/fonts/tiza.ttf").toExternalForm(), 38);
+        Font customFont = Font.loadFont(Main.this.getClass()
+                .getResource("resources/fonts/tiza.ttf").toExternalForm(), 38);
         textSecret.setFont(customFont);
 
         textSecret.setTextFill(Color.web("#FFFFFF"));
@@ -92,7 +86,7 @@ public class Ahorcado extends Application {
         CheckMenuItem itemMute = new CheckMenuItem("Sonido");
         itemMute.setSelected(true);
         itemMute.setOnAction( e-> {
-            if (itemMute.isSelected() == true) {
+            if (itemMute.isSelected()) {
                 Sound.volume = Sound.Volume.LOW;
             } else {
                 Sound.volume = Sound.Volume.MUTE;
@@ -106,7 +100,7 @@ public class Ahorcado extends Application {
         itemExit.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
         itemExit.setOnAction(e -> System.exit(0));
         menuGame.getItems().addAll(itemNew, itemMarcas, itemMute,
-            separator, itemExit);
+                separator, itemExit);
 
         // Menú Info
         Menu menuInfo = new Menu("Info");
@@ -127,7 +121,7 @@ public class Ahorcado extends Application {
         // Icono Pista
         //~ Image imgHelp = new Image(new FileInputStream("res/img/pista.png"));
         Image imgHelp = new Image(
-            getClass().getResourceAsStream("res/img/pista.png")
+                getClass().getResourceAsStream("resources/img/pista.png")
         );
 
         viewHelp = new ImageView(imgHelp);
@@ -152,10 +146,12 @@ public class Ahorcado extends Application {
         StackPane.setMargin(r1, new Insets(0, 10, 0, 0));
 
         // windows root
+        // Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         VBox root = new VBox();
+        // VBox root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         root.setAlignment(Pos.BASELINE_CENTER);
         root.getChildren().addAll(topMenu, stack, imageView,
-            textSecret, teclado);
+                textSecret, teclado);
         VBox.setVgrow(stack, Priority.ALWAYS);
         VBox.setMargin(stack, new Insets(10, 10, 0, 0));
         VBox.setMargin(textSecret, new Insets(20, 10, 0, 10));
@@ -169,6 +165,10 @@ public class Ahorcado extends Application {
         primaryStage.setMinWidth(500);
         primaryStage.setMinHeight(730);
         primaryStage.show();
+
+//        primaryStage.setTitle("Hello World");
+//        primaryStage.setScene(new Scene(root, 300, 275));
+//        primaryStage.show();
     }
 
     public void comprobarLetra(String letra){
@@ -179,13 +179,13 @@ public class Ahorcado extends Application {
         boolean acierto = false;
         for (int i = 0; i < palabra.length(); i++){
             if (palabra.charAt(i) == letra.charAt(0)) {
-               paroleOculta[pos] = letra;
-               acierto = true;
+                paroleOculta[pos] = letra;
+                acierto = true;
             }
             pos += 1;
         }
 
-        if (acierto == false){
+        if (!acierto){
             nuevoJuego.setErroresCometidos();
             int errores = nuevoJuego.getErroresCometidos() + 1;
             if(errores <= 6){
@@ -194,9 +194,9 @@ public class Ahorcado extends Application {
                 Sound.SOUNDERROR.play();
 
                 //~ imageView.setImage(new Image(
-                    //~ "file:res/img/" + errores + ".png"));
+                //~ "file:res/img/" + errores + ".png"));
                 Image image = new Image(getClass()
-                    .getResourceAsStream("res/img/" + errores + ".png")
+                        .getResourceAsStream("resources/img/" + errores + ".png")
                 );
                 imageView.setImage(image);
 
@@ -211,7 +211,7 @@ public class Ahorcado extends Application {
                 }
             } else {
                 Image imageOver = new Image(getClass()
-                    .getResourceAsStream("res/img/7.png"));
+                        .getResourceAsStream("resources/img/7.png"));
                 imageView.setImage(imageOver);
                 // Ventana HAS PERDIDO LA PALABRA ERA... ¿OTRA?
 
@@ -280,7 +280,7 @@ public class Ahorcado extends Application {
         // reiniciar imagen
         //~ imageView.setImage(new Image("file:res/img/1.png"));
         Image image = new Image(getClass()
-            .getResourceAsStream("res/img/1.png"));
+                .getResourceAsStream("resources/img/1.png"));
         imageView.setImage(image);
         // obtener palabra al azar del banco
         String palNueva = nuevoJuego.obtenerPalabra();
@@ -301,7 +301,7 @@ public class Ahorcado extends Application {
         viewHelp.setEffect(null);
     }
 
-    public static void main(String args[]){
+    public static void main(String[] args) {
         launch(args);
     }
 

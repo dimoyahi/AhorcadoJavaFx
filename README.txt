@@ -12,18 +12,9 @@ En linux, según la distribución, el paquete de la versión libre puede recibir
 
 ############################## EJECUTAR
 
-Después de descomprimir el archivo zip, tienes varias opciones para arrancar el juego según tu sistema operativo o su configuración. No requiere instalar nada.
+No requiere instalar nada. Descarga el archivo Ahorcado.zip, extrae su contenido y ejecuta el archivo Ahorcado.jar. Si no se inicia con el ratón, desde consola ejecuta este comando:
 
-Descomprime el archivo zip y entra en la carpeta Ahorcado.
-
-Ejecuta el archivo ahorcado.jar. Si no se inicia con el ratón, desde consola ejecuta este comando:
-
-java -jar ahorcado.jar
-
-Otras opciones son utilizar los archivos run.sh o run.bat. Por ejemplo, en linux desde consola con cualquiera de estos comandos:
-
-./run.sh
-sh run.sh
+java -jar Ahorcado.jar
 
 En linux puedes crear un lanzador para el escritorio o para el menú de aplicaciones creando el archivo ahorcado.desktop
 
@@ -39,7 +30,7 @@ Type=Application
 Name=Ahorcado
 Comment=Ahorcado Launcher
 Icon=RUTA DEL ICONO, POR EJEMPLO: /home/usuario/Ahorcado/icon.png
-Exec=java -jar ahorcado.jar
+Exec=java -jar Ahorcado.jar
 Path=RUTA DEL DIRECTORIO, POR EJEMPLO: /home/usuario/Ahorcado/
 NoDisplay=false
 Categories=Game;
