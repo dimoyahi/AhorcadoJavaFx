@@ -17,7 +17,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
@@ -110,13 +109,13 @@ public class Juego {
 
     private String pista;
 
-    public Juego() {
+    Juego() {
         palabraSecreta = "AHORCADO";
         erroresCometidos = 0;
         pista = "Empieza una partida y hablamos";
     }
     // Métodos para obtener y establecer palabra secreta
-    public int[] combinarArrays (String[]... arrays){
+    private int[] combinarArrays(String[]... arrays){
         // POSICION GLOBAL AL AZAR
         int[] lenArrays = new int[arrays.length];
         int finalLength = 0;
@@ -129,20 +128,21 @@ public class Juego {
         int sumatorio = 0;
         int contadorSet = 0;
         int acumulado = 0;
-        for (int i = 0; i < lenArrays.length; i++) {
-            sumatorio += lenArrays[i];
-            if(sumatorio > posTotal) {
+        for (int lenArray : lenArrays) {
+            sumatorio += lenArray;
+            if (sumatorio > posTotal) {
                 break;
             } else {
                 contadorSet += 1;
-                acumulado += lenArrays[i];
+                acumulado += lenArray;
             }
         }
         // establece la posición en el array
         int posSet = posTotal - acumulado;
 
-        int[] valores = {contadorSet, posSet};
-        return valores;
+        // int[] valores = {contadorSet, posSet};
+        // return valores;
+        return new int[]{contadorSet, posSet};
     }
     public String obtenerPalabra() {
         // extrae al azar categoría y posicion
@@ -216,17 +216,17 @@ public class Juego {
     }
 
     // Método para ocultar palabra secreta
-    public String[] ocultarPalabra (String palSec) {
-        String paOculta = "";
+    public void ocultarPalabra (String palSec) {
+        StringBuilder paOculta = new StringBuilder();
         int nLetras = palSec.length();
         String[] palabraOculta = new String[nLetras];
         for (int i = 0; i < palabraOculta.length; i++) {
             palabraOculta[i] = "_";
-            paOculta += "_ ";
+            // paOculta += "_ ";
+            paOculta.append("_ ");
         }
-        palabraRayada = paOculta;
+        palabraRayada = paOculta.toString();
         arrayOculto = palabraOculta;
-        return palabraOculta;
     }
 
     // Método para recuperar palabra rayada
@@ -254,12 +254,12 @@ public class Juego {
     }
 
     // Marcador
-    public int getVictorias(){
+/*    public int getVictorias(){
         return victorias;
     }
     public int getDerrotas(){
         return derrotas;
-    }
+    }*/
     public void gameWin(boolean win){
         if (win)  {
             victorias += 1;
@@ -276,7 +276,7 @@ public class Juego {
                     new InputStreamReader(
                             new FileInputStream(
                                     new File("config/.conf.txt"))));
-            String line = "";
+            String line;
             String[] marcas = new String[2];
             int contadorMarca = 0;
             while ((line = in.readLine()) != null) {
@@ -290,13 +290,13 @@ public class Juego {
             escribirArchivo(0, 0);
         }
     }
-    public void clearMarcador(){
+    /* public void clearMarcador(){
         victorias = 0;
         derrotas = 0;
         // escribir en archivo valores 0 (o eliminar archivo)
         escribirArchivo(0, 0);
-    }
-    public void escribirArchivo(int win, int los) {
+    }*/
+    private void escribirArchivo(int win, int los) {
         try {
             FileWriter connection = new FileWriter("config/.conf.txt");
             BufferedWriter out = new BufferedWriter(connection);
@@ -383,8 +383,6 @@ public class Juego {
         lblD.setText(der);
         //~ lblD.setFont(Font.loadFont("file:res/fonts/tiza.ttf", 38));
         lblD.setFont(customFont);
-        //~ lblD.setStyle("-fx-color: #121");
-        //~ lblD.setTextFill(Color.web("#121"));
         lblD.setAlignment(Pos.CENTER);
 
         HBox etiquetas = new HBox();

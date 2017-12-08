@@ -1,11 +1,8 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.Light;
@@ -13,7 +10,6 @@ import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
@@ -26,15 +22,18 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    Juego nuevoJuego = new Juego();
+    public static void main(String[] args) {
+        launch(args);
+    }
 
-    ImageView imageView;
-    Label textSecret = new Label();
-    final String teclas1 = "ABCDEFGHI";
-    final String teclas2 = "JKLMNÑOPQ";
-    final String teclas3 = "RSTUVWXYZ";
-    VBox teclado = new VBox();
-    ImageView viewHelp;
+    private Juego nuevoJuego = new Juego();
+    private ImageView imageView;
+    private Label textSecret = new Label();
+    private final String teclas1 = "ABCDEFGHI";
+    private final String teclas2 = "JKLMNÑOPQ";
+    private final String teclas3 = "RSTUVWXYZ";
+    private VBox teclado = new VBox();
+    private ImageView viewHelp;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -43,7 +42,6 @@ public class Main extends Application {
         nuevoJuego.getMarcador();
 
         // Imagen central
-        //~ Image image = new Image(new FileInputStream("res/img/7.png"));
         Image image = new Image(getClass()
                 .getResourceAsStream("resources/img/7.png"));
         imageView = new ImageView(image);
@@ -52,11 +50,10 @@ public class Main extends Application {
         imageView.setPreserveRatio(true);
 
         // Letras
-        //~ textSecret.setFont(Font.loadFont("file:res/fonts/tiza.ttf", 38));
         Font customFont = Font.loadFont(Main.this.getClass()
-                .getResource("resources/fonts/tiza.ttf").toExternalForm(), 38);
+                .getResource("resources/fonts/tiza.ttf")
+                .toExternalForm(), 38);
         textSecret.setFont(customFont);
-
         textSecret.setTextFill(Color.web("#FFFFFF"));
         textSecret.setTextAlignment(TextAlignment.CENTER);
         textSecret.setText("AHORCADO");
@@ -76,12 +73,11 @@ public class Main extends Application {
         // item nuevo juego
         MenuItem itemNew = new MenuItem("Nuevo");
         itemNew.setAccelerator(KeyCombination.keyCombination("Ctrl+N"));
-        itemNew.setOnAction( e -> {reset();});
+        //itemNew.setOnAction( e -> {reset();});
+        itemNew.setOnAction(e -> reset());
         // ítem marcador
         MenuItem itemMarcas = new MenuItem("Marcador");
-        itemMarcas.setOnAction(e -> {
-            nuevoJuego.mostrarMarcador();
-        });
+        itemMarcas.setOnAction(e -> nuevoJuego.mostrarMarcador());
         // ítem mute
         CheckMenuItem itemMute = new CheckMenuItem("Sonido");
         itemMute.setSelected(true);
@@ -106,10 +102,10 @@ public class Main extends Application {
         Menu menuInfo = new Menu("Info");
         // ítem ayuda
         MenuItem itemHelp = new MenuItem("Ayuda");
-        itemHelp.setOnAction(e-> {WindowHelp.show();});
+        itemHelp.setOnAction(e-> WindowHelp.show());
         // ítem acerca de
         MenuItem itemAbout = new MenuItem("Créditos");
-        itemAbout.setOnAction(e-> {WindowAbout.show();});
+        itemAbout.setOnAction(e-> WindowAbout.show());
         menuInfo.getItems().addAll(itemHelp, itemAbout);
 
         // Barra de Menú
@@ -119,7 +115,6 @@ public class Main extends Application {
         topMenu.getChildren().add(menuBar);
 
         // Icono Pista
-        //~ Image imgHelp = new Image(new FileInputStream("res/img/pista.png"));
         Image imgHelp = new Image(
                 getClass().getResourceAsStream("resources/img/pista.png")
         );
@@ -132,12 +127,7 @@ public class Main extends Application {
         Rectangle r1 = new Rectangle(32,32);
         r1.setFill(Color.TRANSPARENT);
         r1.setStyle("-fx-cursor: hand;");
-        r1.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent t) {
-                WindowMessage.show(nuevoJuego.getPista(), "PISTA");
-            }
-        });
+        r1.setOnMouseClicked(e -> WindowMessage.show(nuevoJuego.getPista(), "PISTA"));
 
         StackPane stack = new StackPane();
         stack.getChildren().addAll(viewHelp, r1);
@@ -146,9 +136,7 @@ public class Main extends Application {
         StackPane.setMargin(r1, new Insets(0, 10, 0, 0));
 
         // windows root
-        // Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         VBox root = new VBox();
-        // VBox root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         root.setAlignment(Pos.BASELINE_CENTER);
         root.getChildren().addAll(topMenu, stack, imageView,
                 textSecret, teclado);
@@ -165,13 +153,9 @@ public class Main extends Application {
         primaryStage.setMinWidth(500);
         primaryStage.setMinHeight(730);
         primaryStage.show();
-
-//        primaryStage.setTitle("Hello World");
-//        primaryStage.setScene(new Scene(root, 300, 275));
-//        primaryStage.show();
     }
 
-    public void comprobarLetra(String letra){
+    private void comprobarLetra(String letra){
         String palabra = nuevoJuego.getPalabraSecreta();
         String[] paroleOculta = nuevoJuego.getArrayOculto();
 
@@ -189,12 +173,9 @@ public class Main extends Application {
             nuevoJuego.setErroresCometidos();
             int errores = nuevoJuego.getErroresCometidos() + 1;
             if(errores <= 6){
-
                 //sonido fallo
                 Sound.SOUNDERROR.play();
 
-                //~ imageView.setImage(new Image(
-                //~ "file:res/img/" + errores + ".png"));
                 Image image = new Image(getClass()
                         .getResourceAsStream("resources/img/" + errores + ".png")
                 );
@@ -214,7 +195,6 @@ public class Main extends Application {
                         .getResourceAsStream("resources/img/7.png"));
                 imageView.setImage(imageOver);
                 // Ventana HAS PERDIDO LA PALABRA ERA... ¿OTRA?
-
                 //sonido game over
                 Sound.SOUNDOVER.play();
 
@@ -228,17 +208,17 @@ public class Main extends Application {
             nuevoJuego.setArrayOculto(paroleOculta);
             String[] arraySecreto = nuevoJuego.getArrayOculto();
             // mostrar
-            String parole = "";
+            StringBuilder parole = new StringBuilder();
             for (String element: arraySecreto) {
-                parole += element + " ";
+                // parole += element + " ";
+                parole.append(element).append(" ");
             }
-            nuevoJuego.setPalRayada(parole);
+            nuevoJuego.setPalRayada(parole.toString());
             textSecret.setText(nuevoJuego.getPalRayada());
             // game over: gana
             int totalAciertos = 0;
-            for (int i = 0; i < arraySecreto.length; i++) {
-                //~ if (arraySecreto[i] != "_") {
-                if (!arraySecreto[i].equals("_")){
+            for (String anArraySecreto : arraySecreto) {
+                if (!anArraySecreto.equals("_")) {
                     totalAciertos += 1;
                 }
             }
@@ -258,7 +238,7 @@ public class Main extends Application {
         }
     }
 
-    public HBox addHBox(String teclasX) {
+    private HBox addHBox(String teclasX) {
         HBox tecladoR = new HBox();
         tecladoR.setSpacing(2);
         tecladoR.setAlignment(Pos.CENTER);
@@ -276,16 +256,16 @@ public class Main extends Application {
         return tecladoR;
     }
 
-    public void reset(){
+    private void reset(){
         // reiniciar imagen
-        //~ imageView.setImage(new Image("file:res/img/1.png"));
         Image image = new Image(getClass()
                 .getResourceAsStream("resources/img/1.png"));
         imageView.setImage(image);
         // obtener palabra al azar del banco
         String palNueva = nuevoJuego.obtenerPalabra();
         // ocultar palabra
-        String[] palabraOculta = nuevoJuego.ocultarPalabra(palNueva);
+        //String[] palabraOculta = nuevoJuego.ocultarPalabra(palNueva);
+        nuevoJuego.ocultarPalabra(palNueva);
         //mostrar
         textSecret.setText(nuevoJuego.getPalRayada());
         //reiniciar teclado
@@ -299,10 +279,6 @@ public class Main extends Application {
         nuevoJuego.resetErrores();
         //reiniciar pista
         viewHelp.setEffect(null);
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 
 }

@@ -13,8 +13,8 @@ public enum Sound {
     SOUNDWIN("resources/media/victoria.wav"),
     SOUNDOVER("resources/media/gameover.wav");
 
-    public static enum Volume {
-        MUTE, LOW, MEDIUM, HIGH
+    public enum Volume {
+        MUTE, LOW
     }
 
     public static Volume volume = Volume.LOW;
@@ -45,15 +45,15 @@ public enum Sound {
             clip.start();
         }
     }
-    public void stop(){
+    /* public void stop(){
         clip.stop();
-    }
+    }*/
     //~ public void mute() {
     //~ volume = Volume.MUTE;
     //~ }
     // Optional static method to pre-load all the sound files.
-    static void init() {
+    /* static void init() {
         values(); // calls the constructor for all the elements
-    }
+    }*/
 
 }
