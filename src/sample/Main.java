@@ -1,10 +1,32 @@
+/*
+ * EL AHORCADO. Main.java
+ *
+ * Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Ahorcado'
+ *
+ * AUTOR: Jesús Cuerda
+ *
+ * VERSION: 1.0 - Actualizado: 10/12/2017
+ *
+ * LICENCIA: Software libre de código abierto sujeto a la GNU General Public License v.3,
+ * distribuido con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA.
+ * Todos los errores reservados.
+ *
+ * VER EN: https://github.com/Webierta/AhorcadoJavaFx *
+ */
+
 package sample;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
@@ -29,9 +51,9 @@ public class Main extends Application {
     private Juego nuevoJuego = new Juego();
     private ImageView imageView;
     private Label textSecret = new Label();
-    private final String teclas1 = "ABCDEFGHI";
-    private final String teclas2 = "JKLMNÑOPQ";
-    private final String teclas3 = "RSTUVWXYZ";
+    private final String TECLAS1 = "ABCDEFGHI";
+    private final String TECLAS2 = "JKLMNÑOPQ";
+    private final String TECLAS3 = "RSTUVWXYZ";
     private VBox teclado = new VBox();
     private ImageView viewHelp;
 
@@ -59,9 +81,9 @@ public class Main extends Application {
         textSecret.setText("AHORCADO");
 
         // teclado
-        HBox fila1 = addHBox(teclas1);
-        HBox fila2 = addHBox(teclas2);
-        HBox fila3 = addHBox(teclas3);
+        HBox fila1 = addHBox(TECLAS1);
+        HBox fila2 = addHBox(TECLAS2);
+        HBox fila3 = addHBox(TECLAS3);
         teclado.setVisible(false);
         teclado.getChildren().addAll(fila1, fila2, fila3);
         teclado.setSpacing(2);
@@ -83,9 +105,11 @@ public class Main extends Application {
         itemMute.setSelected(true);
         itemMute.setOnAction( e-> {
             if (itemMute.isSelected()) {
-                Sound.volume = Sound.Volume.LOW;
+                //Sound.volume = Sound.Volume.LOW;
+                Sound.noMute();
             } else {
-                Sound.volume = Sound.Volume.MUTE;
+                //Sound.volume = Sound.Volume.MUTE;
+                Sound.mute();
             }
         });
 
@@ -95,8 +119,7 @@ public class Main extends Application {
         MenuItem itemExit = new MenuItem("Exit");
         itemExit.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
         itemExit.setOnAction(e -> System.exit(0));
-        menuGame.getItems().addAll(itemNew, itemMarcas, itemMute,
-                separator, itemExit);
+        menuGame.getItems().addAll(itemNew, itemMarcas, itemMute, separator, itemExit);
 
         // Menú Info
         Menu menuInfo = new Menu("Info");
@@ -115,10 +138,8 @@ public class Main extends Application {
         topMenu.getChildren().add(menuBar);
 
         // Icono Pista
-        Image imgHelp = new Image(
-                getClass().getResourceAsStream("resources/img/pista.png")
-        );
-
+        Image imgHelp = new Image(getClass()
+                .getResourceAsStream("resources/img/pista.png"));
         viewHelp = new ImageView(imgHelp);
         viewHelp.setFitHeight(32);
         viewHelp.setFitWidth(32);
@@ -270,9 +291,9 @@ public class Main extends Application {
         textSecret.setText(nuevoJuego.getPalRayada());
         //reiniciar teclado
         teclado.getChildren().clear();
-        HBox fila1 = addHBox(teclas1);
-        HBox fila2 = addHBox(teclas2);
-        HBox fila3 = addHBox(teclas3);
+        HBox fila1 = addHBox(TECLAS1);
+        HBox fila2 = addHBox(TECLAS2);
+        HBox fila3 = addHBox(TECLAS3);
         teclado.getChildren().addAll(fila1, fila2, fila3);
         teclado.setVisible(true);
         //reiniciar errores

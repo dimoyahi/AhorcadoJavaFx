@@ -1,3 +1,19 @@
+/*
+ * EL AHORCADO. Sound.java
+ *
+ * Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Ahorcado'
+ *
+ * AUTOR: Jesús Cuerda
+ *
+ * VERSION: 1.0 - Actualizado: 10/12/2017
+ *
+ * LICENCIA: Software libre de código abierto sujeto a la GNU General Public License v.3,
+ * distribuido con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA.
+ * Todos los errores reservados.
+ *
+ * VER EN: https://github.com/Webierta/AhorcadoJavaFx *
+ */
+
 package sample;
 
 import javax.sound.sampled.AudioInputStream;
@@ -13,16 +29,14 @@ public enum Sound {
     SOUNDWIN("resources/media/victoria.wav"),
     SOUNDOVER("resources/media/gameover.wav");
 
-    public enum Volume {
+    private enum Volume {
         MUTE, LOW
     }
-
-    public static Volume volume = Volume.LOW;
-
+    //public static Volume volume = Volume.LOW;
+    private static  Volume volume; // = Volume.LOW;
     private Clip clip;
 
     Sound(String fileName){
-
         try (InputStream audio = getClass().getResourceAsStream(fileName)) {
             InputStream buffer = new BufferedInputStream(audio);
             try (AudioInputStream sound = AudioSystem.getAudioInputStream(buffer)) {
@@ -32,10 +46,15 @@ public enum Sound {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    // play, stop, loop the sound clip
+    public static void mute(){
+        volume = Volume.MUTE;
+    }
+    public static void noMute(){
+        volume = Volume.LOW;
+    }
+
     public void play(){
         if (volume != Volume.MUTE) {
             if (clip.isRunning()) {
@@ -45,15 +64,5 @@ public enum Sound {
             clip.start();
         }
     }
-    /* public void stop(){
-        clip.stop();
-    }*/
-    //~ public void mute() {
-    //~ volume = Volume.MUTE;
-    //~ }
-    // Optional static method to pre-load all the sound files.
-    /* static void init() {
-        values(); // calls the constructor for all the elements
-    }*/
 
 }

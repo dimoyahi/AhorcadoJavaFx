@@ -1,3 +1,19 @@
+/*
+ * EL AHORCADO. WindowAbout.java
+ *
+ * Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Ahorcado'
+ *
+ * AUTOR: Jesús Cuerda
+ *
+ * VERSION: 1.0 - Actualizado: 10/12/2017
+ *
+ * LICENCIA: Software libre de código abierto sujeto a la GNU General Public License v.3,
+ * distribuido con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA.
+ * Todos los errores reservados.
+ *
+ * VER EN: https://github.com/Webierta/AhorcadoJavaFx *
+ */
+
 package sample;
 
 import javafx.geometry.Insets;

@@ -1,3 +1,19 @@
+/*
+ * EL AHORCADO. Juego.java
+ *
+ * Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Ahorcado'
+ *
+ * AUTOR: Jesús Cuerda
+ *
+ * VERSION: 1.0 - Actualizado: 10/12/2017
+ *
+ * LICENCIA: Software libre de código abierto sujeto a la GNU General Public License v.3,
+ * distribuido con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA.
+ * Todos los errores reservados.
+ *
+ * VER EN: https://github.com/Webierta/AhorcadoJavaFx *
+ */
+
 package sample;
 
 import javafx.geometry.Insets;
@@ -19,6 +35,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+//import java.security.SecureRandom;
 
 public class Juego {
 
@@ -29,7 +46,7 @@ public class Juego {
     private int victorias;
     private int derrotas;
 
-    private final String[] animales = {"abeja", "abejorro", "aguila", "almeja",
+    private final String[] ANIMALES = {"abeja", "abejorro", "aguila", "almeja",
             "anaconda", "araña", "asno", "atun", "avestruz", "avispa", "ballena",
             "besugo", "bufalo", "buho", "buitre", "burro", "caballo", "cabra",
             "caiman", "camaleon", "camello", "canario", "cangrejo", "caracol",
@@ -46,20 +63,20 @@ public class Juego {
             "pulga", "pulpo", "puma", "rana", "raton", "salmon", "sapo",
             "tiburon", "tigre", "topo", "toro", "tortuga", "trucha", "tucan",
             "vaca", "vibora", "zorro"};
-    private final String[] colores = {"azul", "amarillo", "violeta", "marron",
+    private final String[] COLORES = {"azul", "amarillo", "violeta", "marron",
             "rojo", "blanco", "negro", "gris", "morado", "naranja", "verde",
             "ambar", "añil", "beige", "beis", "carmesi", "celeste", "colorado",
             "crema", "escarlata", "fucsia", "rosa", "granate", "lila", "magenta",
             "ocre", "purpura"};
-    private final String[] flores = {"amapola", "rosa", "clavel", "margarita",
+    private final String[] FLORES = {"amapola", "rosa", "clavel", "margarita",
             "azalea", "camelia", "geranio", "jazmin", "lirio", "orquidea",
             "narciso", "tulipan", "nenufar", "girasol", "dalia"};
-    private final String[] deportes = {"aerobic", "ajedrez", "arco", "billar",
+    private final String[] DEPORTES = {"aerobic", "ajedrez", "arco", "billar",
             "bolos", "boxeo", "beisbol", "ciclismo", "cricket", "escalada",
             "esgrima", "esqui", "futbol", "golf", "gimnasia", "hipica", "hockey",
             "judo", "karate", "lucha", "natacion", "paddle", "patinaje", "petanca",
             "pingpong", "polo", "rugby", "tenis", "tiro", "voleibol"};
-    private final String[] alimentos = {"queso", "pizza", "chorizo", "jamon",
+    private final String[] ALIMENTOS = {"queso", "pizza", "chorizo", "jamon",
             "salami", "paella", "pastel", "bizcocho", "macarrones", "menestra",
             "ensalada", "sopa", "chocolate", "salsa", "huevo", "crema", "leche",
             "guarnición", "chuleta", "flan", "ceviche", "cocido", "tortilla",
@@ -68,32 +85,32 @@ public class Juego {
             "sandwich", "pisto", "fabada", "escalibada", "lentejas", "churro",
             "ensaimada", "morcilla", "yogur", "turron", "papas", "porrusalda",
             "callos", "torrija", "butifarra"};
-    private final String[] quimicos = {"litio", "helio", "fosforo", "azufre",
+    private final String[] QUIMICOS = {"litio", "helio", "fosforo", "azufre",
             "niquel", "hierro", "plata", "mercurio", "polonio", "plomo", "fluor",
             "hidrogeno", "carbono", "oxigeno", "sodio", "magnesio", "aluminio",
             "silicio", "cloro", "potasio", "calcio", "titanio", "cobalto",
             "cobre", "zinc", "estroncio", "cadmio", "yodo", "estaño", "platino",
             "radon", "uranio", "molibdeno"};
-    private final String[] vehiculos = {"coche", "moto", "bicicleta", "tren",
+    private final String[] VEHICULOS = {"coche", "moto", "bicicleta", "tren",
             "barco", "avion", "helicoptero", "autobus", "automovil", "trineo",
             "carruaje", "yate", "lancha", "submarino", "canoa", "avioneta",
             "parapente", "cohete", "metro", "tranvia", "funicular", "ferrocarril",
             "camion", "camioneta", "tractor", "motocarro", "furgoneta", "buque",
             "kayak", "piragua", "velero", "carro", "carroza", "monopatin",
             "triciclo"};
-    private final String[] cuerpo = {"brazo", "mano", "cabeza", "pierna",
+    private final String[] CUERPO = {"brazo", "mano", "cabeza", "pierna",
             "cuello", "cadera", "rodilla", "dedo", "oreja", "nariz", "cara", "codo",
             "ombligo", "espalda", "tobillo", "garganta", "ceja", "mejilla",
             "boca", "barbilla", "lengua", "parpado", "pestaña", "hombro",
             "muñeca", "pulgar", "muslo", "talon", "cerebro", "corazon", "higado",
             "riñon", "pulmon", "pancreas", "vejiga", "cintura", "pecho", "piel",
             "diente", "nalga"};
-    private final String[] prendas = {"abrigo", "guante", "bufanda", "camisa",
+    private final String[] PRENDAS = {"abrigo", "guante", "bufanda", "camisa",
             "calcetin", "corbata", "pantalon", "falda", "camiseta", "zapato",
             "sombrero", "media", "chaqueta", "cinturon", "blusa", "gorro",
             "sueter", "jersey", "traje", "boina", "vestido", "bota", "sandalia",
             "chancla", "correa", "liga"};
-    private final String[] oficios = {"medico", "enfermero", "maestro",
+    private final String[] OFICIOS = {"medico", "enfermero", "maestro",
             "pintor", "albañil", "abogado", "zapatero", "psicologo", "fontanero",
             "carpintero", "banquero", "profesor", "mecanico", "periodista",
             "juez", "electricista", "escritor", "informatico", "portero", "policia",
@@ -102,7 +119,7 @@ public class Juego {
             "arquitecto", "matematico", "biologo", "fisico", "quimico", "filosofo",
             "arqueologo", "farmaceutico", "geografo", "historiador", "sociologo",
             "musico", "economista", "radiologo", "ganadero"};
-    private final String[] numeros = {"quince", "doce", "trece", "catorce",
+    private final String[] NUMEROS = {"quince", "doce", "trece", "catorce",
             "siete", "cien", "siete", "ocho", "nueve", "diez", "cero", "cuatro",
             "cinco", "treinta", "cuarenta", "cincuenta", "millon", "sesenta",
             "setenta", "ochenta", "noventa"};
@@ -114,16 +131,23 @@ public class Juego {
         erroresCometidos = 0;
         pista = "Empieza una partida y hablamos";
     }
+
     // Métodos para obtener y establecer palabra secreta
     private int[] combinarArrays(String[]... arrays){
-        // POSICION GLOBAL AL AZAR
+
+        // CALCULA LONGITUD GLOBAL
         int[] lenArrays = new int[arrays.length];
         int finalLength = 0;
         for (int i = 0; i < arrays.length; i++) {
             finalLength += arrays[i].length;
             lenArrays[i] = arrays[i].length;
         }
+
+        // POSICIÓN ALEATORIA EN LA LONGITUD GLOBAL
         int posTotal = (int) (Math.random() * finalLength);
+        //SecureRandom numeroAleatorio = new SecureRandom();
+        //int posTotal = numeroAleatorio.nextInt(finalLength);
+
         // establece a qué array pertenece esa posicion
         int sumatorio = 0;
         int contadorSet = 0;
@@ -137,6 +161,7 @@ public class Juego {
                 acumulado += lenArray;
             }
         }
+
         // establece la posición en el array
         int posSet = posTotal - acumulado;
 
@@ -146,54 +171,55 @@ public class Juego {
     }
     public String obtenerPalabra() {
         // extrae al azar categoría y posicion
-        int[] valorPalabra = combinarArrays(animales, colores, flores,
-                deportes, alimentos, quimicos, vehiculos, cuerpo, prendas,
-                oficios, numeros);
+        int[] valorPalabra = combinarArrays(ANIMALES, COLORES, FLORES,
+                DEPORTES, ALIMENTOS, QUIMICOS, VEHICULOS, CUERPO, PRENDAS,
+                OFICIOS, NUMEROS);
+
         // establece palabra y pista
         int categoria = valorPalabra[0];
         int posCat = valorPalabra[1];
         String palabra;
         switch (categoria) {
             case 0: pista = "Animal";
-                palabra = animales[posCat];
+                palabra = ANIMALES[posCat];
                 break;
             case 1: pista = "Color";
-                palabra = colores[posCat];
+                palabra = COLORES[posCat];
                 break;
             case 2: pista = "Flor";
-                palabra = flores[posCat];
+                palabra = FLORES[posCat];
                 break;
             case 3: pista = "Deporte o juego";
-                palabra = deportes[posCat];
+                palabra = DEPORTES[posCat];
                 break;
             case 4: pista = "Alimento o plato cocinado";
-                palabra = alimentos[posCat];
+                palabra = ALIMENTOS[posCat];
                 break;
             case 5: pista = "Elemento químico";
-                palabra = quimicos[posCat];
+                palabra = QUIMICOS[posCat];
                 break;
             case 6: pista = "Vehículo o medio de transporte";
-                palabra = vehiculos[posCat];
+                palabra = VEHICULOS[posCat];
                 break;
             case 7: pista = "Parte del cuerpo u órgano interno";
-                palabra = cuerpo[posCat];
+                palabra = CUERPO[posCat];
                 break;
             case 8: pista = "Prenda de vestir o complemento";
-                palabra = prendas[posCat];
+                palabra = PRENDAS[posCat];
                 break;
             case 9: pista = "Profesión u oficio";
-                palabra = oficios[posCat];
+                palabra = OFICIOS[posCat];
                 break;
             case 10:pista = "Un número";
-                palabra = numeros[posCat];
+                palabra = NUMEROS[posCat];
                 break;
             default:pista = "Lo siento, me he quedado sin palabras";
                 palabra = "ahorcado";
                 break;
         }
         String palabraUp = palabra.toUpperCase();
-        // establece la palabra secreta
         palabraSecreta = palabraUp;
+
         return palabraUp;
     }
 

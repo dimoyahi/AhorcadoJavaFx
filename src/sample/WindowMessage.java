@@ -1,3 +1,19 @@
+/*
+ * EL AHORCADO. WindowMessage.java
+ *
+ * Aplicación de escritorio que revive el clásico juego de lápiz y papel 'El Ahorcado'
+ *
+ * AUTOR: Jesús Cuerda
+ *
+ * VERSION: 1.0 - Actualizado: 10/12/2017
+ *
+ * LICENCIA: Software libre de código abierto sujeto a la GNU General Public License v.3,
+ * distribuido con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA.
+ * Todos los errores reservados.
+ *
+ * VER EN: https://github.com/Webierta/AhorcadoJavaFx *
+ */
+
 package sample;
 
 import javafx.geometry.Insets;
@@ -14,10 +30,10 @@ public class WindowMessage {
 
     public static void show(String message, String title) {
 
-        final Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle(title);
-        stage.setMinWidth(350);
+        final Stage STAGE = new Stage();
+        STAGE.initModality(Modality.APPLICATION_MODAL);
+        STAGE.setTitle(title);
+        STAGE.setMinWidth(350);
 
         Label lbl = new Label();
         lbl.setText(message);
@@ -27,7 +43,7 @@ public class WindowMessage {
         Button btnOK = new Button();
         btnOK.setText("OK");
         btnOK.setPrefWidth(80.0);
-        btnOK.setOnAction(e -> stage.close());
+        btnOK.setOnAction(e -> STAGE.close());
 
         VBox pane = new VBox(20);
         pane.setSpacing(30);
@@ -36,8 +52,8 @@ public class WindowMessage {
         pane.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(pane);
-        stage.setScene(scene);
-        stage.showAndWait();
+        STAGE.setScene(scene);
+        STAGE.showAndWait();
     }
 
 }
