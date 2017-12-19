@@ -5,13 +5,13 @@
  *
  * AUTOR: Jesús Cuerda
  *
- * VERSION: 1.0 - Actualizado: 10/12/2017
+ * VERSION: 1.1 - Actualizado: 19/12/2017
  *
  * LICENCIA: Software libre de código abierto sujeto a la GNU General Public License v.3,
  * distribuido con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA.
  * Todos los errores reservados.
  *
- * VER EN: https://github.com/Webierta/AhorcadoJavaFx *
+ * VER EN: https://github.com/Webierta/AhorcadoJavaFx
  */
 
 package sample;
@@ -32,8 +32,14 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Ventana con información acerca de la aplicación
+ */
 public class WindowAbout {
 
+    /**
+     * Muestra la ventana modal
+     */
     public static void show() {
 
         ScrollPane scrollPane = new ScrollPane();

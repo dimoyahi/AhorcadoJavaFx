@@ -5,13 +5,13 @@
  *
  * AUTOR: Jesús Cuerda
  *
- * VERSION: 1.0 - Actualizado: 10/12/2017
+ * VERSION: 1.1 - Actualizado: 19/12/2017
  *
  * LICENCIA: Software libre de código abierto sujeto a la GNU General Public License v.3,
  * distribuido con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA.
  * Todos los errores reservados.
  *
- * VER EN: https://github.com/Webierta/AhorcadoJavaFx *
+ * VER EN: https://github.com/Webierta/AhorcadoJavaFx
  */
 
 package sample;
@@ -26,8 +26,16 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Ventana con un mensaje
+ */
 public class WindowMessage {
 
+    /**
+     * Muestra la ventana modal
+     * @param message Contenido del mensaje
+     * @param title Título de la ventana
+     */
     public static void show(String message, String title) {
 
         final Stage STAGE = new Stage();

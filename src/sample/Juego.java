@@ -5,13 +5,13 @@
  *
  * AUTOR: Jesús Cuerda
  *
- * VERSION: 1.0 - Actualizado: 10/12/2017
+ * VERSION: 1.1 - Actualizado: 19/12/2017
  *
  * LICENCIA: Software libre de código abierto sujeto a la GNU General Public License v.3,
  * distribuido con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA.
  * Todos los errores reservados.
  *
- * VER EN: https://github.com/Webierta/AhorcadoJavaFx *
+ * VER EN: https://github.com/Webierta/AhorcadoJavaFx
  */
 
 package sample;
@@ -28,15 +28,19 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
-//import java.security.SecureRandom;
+import java.io.IOException;
+import java.util.Properties;
 
+/**
+ * Selecciona una palabra
+ * y gestiona el marcador de resultados
+ */
 public class Juego {
 
     private String palabraSecreta;
@@ -45,6 +49,9 @@ public class Juego {
     private String[] arrayOculto;
     private int victorias;
     private int derrotas;
+    private Button btnClear = new Button();
+    private final String PATH_CONFIG = System.getProperty("user.home");
+    private final File ARCHIVO = new File(PATH_CONFIG, ".ahorcado.properties");
 
     private final String[] ANIMALES = {"abeja", "abejorro", "aguila", "almeja",
             "anaconda", "araña", "asno", "atun", "avestruz", "avispa", "ballena",
@@ -126,6 +133,9 @@ public class Juego {
 
     private String pista;
 
+    /**
+     * Constructor
+     */
     Juego() {
         palabraSecreta = "AHORCADO";
         erroresCometidos = 0;
@@ -133,6 +143,14 @@ public class Juego {
     }
 
     // Métodos para obtener y establecer palabra secreta
+
+    /**
+     * Combina todos los arrays para obtener una palabra al azar
+     * @param arrays Arrays de palabras
+     * @return Devuelve un array de 2 números:
+     * el primero establece el array seleccionado (categoría)
+     * y el segundo marca la posición de la palabra en ese array
+     */
     private int[] combinarArrays(String[]... arrays){
 
         // CALCULA LONGITUD GLOBAL
@@ -164,11 +182,14 @@ public class Juego {
 
         // establece la posición en el array
         int posSet = posTotal - acumulado;
-
-        // int[] valores = {contadorSet, posSet};
-        // return valores;
         return new int[]{contadorSet, posSet};
     }
+
+    /**
+     * Establece la palabra secreta
+     * y la pista
+     * @return Palabra secreta en mayúsculas
+     */
     public String obtenerPalabra() {
         // extrae al azar categoría y posicion
         int[] valorPalabra = combinarArrays(ANIMALES, COLORES, FLORES,
@@ -176,42 +197,40 @@ public class Juego {
                 OFICIOS, NUMEROS);
 
         // establece palabra y pista
-        int categoria = valorPalabra[0];
-        int posCat = valorPalabra[1];
         String palabra;
-        switch (categoria) {
+        switch (valorPalabra[0]) {
             case 0: pista = "Animal";
-                palabra = ANIMALES[posCat];
+                palabra = ANIMALES[valorPalabra[1]];
                 break;
             case 1: pista = "Color";
-                palabra = COLORES[posCat];
+                palabra = COLORES[valorPalabra[1]];
                 break;
             case 2: pista = "Flor";
-                palabra = FLORES[posCat];
+                palabra = FLORES[valorPalabra[1]];
                 break;
             case 3: pista = "Deporte o juego";
-                palabra = DEPORTES[posCat];
+                palabra = DEPORTES[valorPalabra[1]];
                 break;
             case 4: pista = "Alimento o plato cocinado";
-                palabra = ALIMENTOS[posCat];
+                palabra = ALIMENTOS[valorPalabra[1]];
                 break;
             case 5: pista = "Elemento químico";
-                palabra = QUIMICOS[posCat];
+                palabra = QUIMICOS[valorPalabra[1]];
                 break;
             case 6: pista = "Vehículo o medio de transporte";
-                palabra = VEHICULOS[posCat];
+                palabra = VEHICULOS[valorPalabra[1]];
                 break;
             case 7: pista = "Parte del cuerpo u órgano interno";
-                palabra = CUERPO[posCat];
+                palabra = CUERPO[valorPalabra[1]];
                 break;
             case 8: pista = "Prenda de vestir o complemento";
-                palabra = PRENDAS[posCat];
+                palabra = PRENDAS[valorPalabra[1]];
                 break;
             case 9: pista = "Profesión u oficio";
-                palabra = OFICIOS[posCat];
+                palabra = OFICIOS[valorPalabra[1]];
                 break;
             case 10:pista = "Un número";
-                palabra = NUMEROS[posCat];
+                palabra = NUMEROS[valorPalabra[1]];
                 break;
             default:pista = "Lo siento, me he quedado sin palabras";
                 palabra = "ahorcado";
@@ -219,29 +238,43 @@ public class Juego {
         }
         String palabraUp = palabra.toUpperCase();
         palabraSecreta = palabraUp;
-
         return palabraUp;
     }
 
-    // Método para recuperar la palabra secreta
+    /**
+     * Obtiene la palabra secreta
+     * @return String
+     */
     public String getPalabraSecreta() {
         return palabraSecreta;
     }
 
-    // Método para recuperar número de errores
+    /**
+     * Recupera la cuenta de errores cometidos
+     * @return número entero
+     */
     public int getErroresCometidos() {
         return erroresCometidos;
     }
-    // Método para reiniciar número de errores
+
+    /**
+     * Reinicia los errores cometidos a 0
+     */
     public void resetErrores () {
         erroresCometidos = 0;
     }
-    // Método para actualizar número de errores
+
+    /**
+     * Actualiza el número de errores
+     */
     public void setErroresCometidos() {
         erroresCometidos++;
     }
 
-    // Método para ocultar palabra secreta
+    /**
+     * Oculta la palabra secreta
+     * @param palSec Nueva palabra
+     */
     public void ocultarPalabra (String palSec) {
         StringBuilder paOculta = new StringBuilder();
         int nLetras = palSec.length();
@@ -255,37 +288,52 @@ public class Juego {
         arrayOculto = palabraOculta;
     }
 
-    // Método para recuperar palabra rayada
+    /**
+     * Recupera la palabra rayada
+     * @return palabra rayada
+     */
     public String getPalRayada(){
         return palabraRayada;
     }
 
-    // Método para actualizar palabra rayada
+    /**
+     * Actualiza palabra rayada
+     * @param nuevaRayada Palabra oculta
+     */
     public void setPalRayada (String nuevaRayada) {
         palabraRayada = nuevaRayada;
     }
 
-    // Método para recuperar array oculto
+    /**
+     * Recupera array oculto
+     * @return array oculto
+     */
     public String[] getArrayOculto(){
         return arrayOculto;
     }
-    // Método para actualizar array oculto
+
+    /**
+     * Actualiza array oculto
+     * @param nuevoArray Array de letras de la palabra oculta
+     */
     public void setArrayOculto (String[] nuevoArray) {
         arrayOculto = nuevoArray;
     }
 
-    // Método para recuperar la pista
+    /**
+     * Recupera la pista
+     * @return Pista sobre la categoría de la palabra secreta
+     */
     public String getPista(){
         return pista;
     }
 
-    // Marcador
-/*    public int getVictorias(){
-        return victorias;
-    }
-    public int getDerrotas(){
-        return derrotas;
-    }*/
+    /**
+     * Marcador
+     * Cuenta victorias y derrotas
+     * y las escribe en archivo
+     * @param win true = victoria
+     */
     public void gameWin(boolean win){
         if (win)  {
             victorias += 1;
@@ -295,56 +343,68 @@ public class Juego {
         // escribir en archivo
         escribirArchivo(victorias, derrotas);
     }
-    public void getMarcador() throws IOException {
-        File archivoM = new File ("config/.conf.txt");
-        if (archivoM.exists() && archivoM.canRead()) {
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(
-                            new FileInputStream(
-                                    new File("config/.conf.txt"))));
-            String line;
-            String[] marcas = new String[2];
-            int contadorMarca = 0;
-            while ((line = in.readLine()) != null) {
-                marcas[contadorMarca] = line;
-                contadorMarca++;
+
+    /**
+     * Recupera datos desde archivo propiedades para leer marcador
+     * Si no encuentra el archivo: lo escribe
+     */
+    public void getMarcador() {
+
+        if (ARCHIVO.exists() && ARCHIVO.canRead()) {
+            try {
+                Properties props = new Properties();
+                FileInputStream reader = new FileInputStream(ARCHIVO);
+                props.load(reader);
+                victorias = Integer.parseInt(props.getProperty("victorias"));
+                derrotas = Integer.parseInt(props.getProperty("derrotas"));
+                reader.close();
+            } catch (FileNotFoundException e) {
+                System.out.println("ARCHIVO NO ENCONTRADO O CORRUPTO");
+                escribirArchivo(0, 0);
+            } catch (IOException e) {
+                System.out.println("NO ENCONTRADO");
+                escribirArchivo(0, 0);
             }
-            in.close();
-            victorias = Integer.parseInt(marcas[0]);
-            derrotas = Integer.parseInt(marcas[1]);
         } else {
             escribirArchivo(0, 0);
         }
     }
-    /* public void clearMarcador(){
-        victorias = 0;
-        derrotas = 0;
-        // escribir en archivo valores 0 (o eliminar archivo)
-        escribirArchivo(0, 0);
-    }*/
+
+    /**
+     * Escribe marcador en archivo propiedades
+     * @param win victorias
+     * @param los derrotas
+     */
     private void escribirArchivo(int win, int los) {
-        try {
-            FileWriter connection = new FileWriter("config/.conf.txt");
-            BufferedWriter out = new BufferedWriter(connection);
-            out.write(win + "\n" + los);
-            //out.write(win);
-            //out.newLine();
-            //out.write(los);
-            out.close();
-        } catch (IOException e){
-            e.printStackTrace();
+
+        if (!ARCHIVO.exists() && !ARCHIVO.canRead()){
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO));
+                writer.close();
+            } catch (IOException e) {
+                System.out.println("NO CREADO");
+            }
         }
-        //  OTRA OPCION: PrintWriter
-        /*try {
-            FileWriter connection = new FileWriter("config/.conf.txt");
-            PrintWriter writer = new PrintWriter(new BufferedWriter(connection));
-            writer.println(win);
-            writer.println(los);
-            writer.close();
+
+        try {
+            Properties properties = new Properties();
+            properties.setProperty("victorias", String.valueOf(win));
+            properties.setProperty("derrotas", String.valueOf(los));
+            FileOutputStream marca = new FileOutputStream(ARCHIVO);
+            properties.store(marca,"MARCADOR AHORCADO");
+            marca.close();
         } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+            System.out.println("ERROR AL ESCRIBIR");
+            btnClear.setDisable(true);
+            String msgErrorMarcador = "El archivo que almacena el marcador no ha podido ser creado.\n"
+                    + "El juego funcionará con normalidad pero los resultados no se guardarán.";
+            WindowMessage.show(msgErrorMarcador, "ERROR");
+        }
     }
+
+    /**
+     * Ventana marcador
+     */
     public void mostrarMarcador () {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -357,9 +417,6 @@ public class Juego {
         iconos.setAlignment(Pos.CENTER);
         ImageView imageViewV;
         ImageView imageViewD;
-        //~ try {
-        //~ Image imageV = new Image(
-        //~ new FileInputStream("res/img/triunfos.png"));
         Image imageV = new Image(this.getClass()
                 .getResourceAsStream("resources/img/triunfos.png"));
 
@@ -368,16 +425,7 @@ public class Juego {
         imageViewV.setFitWidth(64);
         imageViewV.setPreserveRatio(true);
         iconos.getChildren().add(imageViewV);
-        //~ } catch (FileNotFoundException ex) {
-        //~ System.out.println(ex.getMessage());
-        //~ }
-        //~ } catch (IOException e) {
-        //~ e.printStackTrace();
-        //~ }
 
-        //~ try {
-        //~ Image imageD = new Image(
-        //~ new FileInputStream("res/img/derrotas.png"));
         Image imageD = new Image(this.getClass()
                 .getResourceAsStream("resources/img/derrotas.png"));
         imageViewD = new ImageView(imageD);
@@ -385,9 +433,6 @@ public class Juego {
         imageViewD.setFitWidth(64);
         imageViewD.setPreserveRatio(true);
         iconos.getChildren().add(imageViewD);
-        //~ } catch (FileNotFoundException ex){
-        //~ System.out.println(ex.getMessage());
-        //~ }
 
         Label lblV = new Label();
         String vic = String.valueOf(victorias);
@@ -423,11 +468,10 @@ public class Juego {
         btnOK.setPrefWidth(80.0);
         btnOK.setOnAction(e -> stage.close());
 
-        Button btnClear = new Button();
+        //Button btnClear = new Button();
         btnClear.setText("Limpiar");
         btnClear.setPrefWidth(80.0);
         btnClear.setOnAction(e -> {
-            //~ clearMarcador();
             victorias = 0;
             derrotas = 0;
             // escribir en archivo valores 0 (o eliminar archivo)

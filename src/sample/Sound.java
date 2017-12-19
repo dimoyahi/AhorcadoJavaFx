@@ -5,13 +5,13 @@
  *
  * AUTOR: Jesús Cuerda
  *
- * VERSION: 1.0 - Actualizado: 10/12/2017
+ * VERSION: 1.1 - Actualizado: 19/12/2017
  *
  * LICENCIA: Software libre de código abierto sujeto a la GNU General Public License v.3,
  * distribuido con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA.
  * Todos los errores reservados.
  *
- * VER EN: https://github.com/Webierta/AhorcadoJavaFx *
+ * VER EN: https://github.com/Webierta/AhorcadoJavaFx
  */
 
 package sample;
@@ -22,6 +22,9 @@ import javax.sound.sampled.Clip;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 
+/**
+ * Gestiona los efectos de sonido del juego
+ */
 public enum Sound {
 
     SOUNDERROR("resources/media/error.wav"),
@@ -29,14 +32,15 @@ public enum Sound {
     SOUNDWIN("resources/media/victoria.wav"),
     SOUNDOVER("resources/media/gameover.wav");
 
-    private enum Volume {
-        MUTE, LOW
-    }
-    //public static Volume volume = Volume.LOW;
-    private static  Volume volume; // = Volume.LOW;
+    private boolean volumen;
     private Clip clip;
 
+    /**
+     * Constructor
+     * @param fileName Ruta del archivo de sonido
+     */
     Sound(String fileName){
+        volumen = true;
         try (InputStream audio = getClass().getResourceAsStream(fileName)) {
             InputStream buffer = new BufferedInputStream(audio);
             try (AudioInputStream sound = AudioSystem.getAudioInputStream(buffer)) {
@@ -48,15 +52,27 @@ public enum Sound {
         }
     }
 
-    public static void mute(){
-        volume = Volume.MUTE;
-    }
-    public static void noMute(){
-        volume = Volume.LOW;
+    /**
+     * Cambia variable volumen
+     * @param volumen boolean
+     */
+    public void setVolumen(boolean volumen){
+        this.volumen = volumen;
     }
 
+    /**
+     * Obtiene valor de volumen
+     * @return boolean
+     */
+    private boolean isVolumen(){
+        return volumen;
+    }
+
+    /**
+     * Reproduce el sonido
+     */
     public void play(){
-        if (volume != Volume.MUTE) {
+        if(isVolumen()){
             if (clip.isRunning()) {
                 clip.stop();
             }

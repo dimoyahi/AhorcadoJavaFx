@@ -5,7 +5,7 @@
  *
  * AUTOR: Jesús Cuerda
  *
- * VERSION: 1.0 - Actualizado: 10/12/2017
+ * VERSION: 1.1 - Actualizado: 19/12/2017
  *
  * LICENCIA: Software libre de código abierto sujeto a la GNU General Public License v.3,
  * distribuido con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA.
@@ -42,6 +42,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+/**
+ * Arranque de la aplicación
+ */
 public class Main extends Application {
 
     public static void main(String[] args) {
@@ -57,8 +60,12 @@ public class Main extends Application {
     private VBox teclado = new VBox();
     private ImageView viewHelp;
 
+    /**
+     * Ventana principal de la aplicación: GUI con JavaFX
+     * @param primaryStage Ventana principal
+     */
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) {
 
         // recuperar marcador (leer archivo)
         nuevoJuego.getMarcador();
@@ -104,12 +111,21 @@ public class Main extends Application {
         CheckMenuItem itemMute = new CheckMenuItem("Sonido");
         itemMute.setSelected(true);
         itemMute.setOnAction( e-> {
+
             if (itemMute.isSelected()) {
                 //Sound.volume = Sound.Volume.LOW;
-                Sound.noMute();
+                //Sound.noMute();
+                for(Sound sonido: Sound.values()){
+                    sonido.setVolumen(true);
+                }
+
             } else {
                 //Sound.volume = Sound.Volume.MUTE;
-                Sound.mute();
+                //Sound.mute();
+                for(Sound sonido: Sound.values()){
+                    sonido.setVolumen(false);
+                }
+
             }
         });
 
@@ -140,10 +156,10 @@ public class Main extends Application {
         // Icono Pista
         Image imgHelp = new Image(getClass()
                 .getResourceAsStream("resources/img/pista.png"));
-        viewHelp = new ImageView(imgHelp);
-        viewHelp.setFitHeight(32);
-        viewHelp.setFitWidth(32);
-        viewHelp.setPreserveRatio(true);
+            viewHelp = new ImageView(imgHelp);
+            viewHelp.setFitHeight(32);
+            viewHelp.setFitWidth(32);
+            viewHelp.setPreserveRatio(true);
 
         Rectangle r1 = new Rectangle(32,32);
         r1.setFill(Color.TRANSPARENT);
@@ -176,6 +192,13 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Comprueba si la letra elegida
+     * es un acierto (descubre letras acertadas)
+     * o un fallo (avanza la imagen del ahorcado),
+     * y si el juego ha terminado por victoria o derrota
+     * @param letra Letra pulsada
+     */
     private void comprobarLetra(String letra){
         String palabra = nuevoJuego.getPalabraSecreta();
         String[] paroleOculta = nuevoJuego.getArrayOculto();
@@ -259,6 +282,11 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Devuelve HBox con fila de teclas
+     * @param teclasX String con las letras de cada fila de teclas
+     * @return Box horizontal con botones de las letras
+     */
     private HBox addHBox(String teclasX) {
         HBox tecladoR = new HBox();
         tecladoR.setSpacing(2);
@@ -277,6 +305,14 @@ public class Main extends Application {
         return tecladoR;
     }
 
+    /**
+     * Nueva partida:
+     * Reinicia la imagen del juego
+     * Obtiene nueva palabra oculta
+     * Reinicia teclado
+     * Reinicia contador de errores
+     * Reinicia estado imagen pista
+     */
     private void reset(){
         // reiniciar imagen
         Image image = new Image(getClass()

@@ -1,4 +1,4 @@
-# Juego del Ahorcado - Versión: 1.0.
+# Juego del Ahorcado - Versión: 1.1.
 Copyleft 2017 - Jesús Cuerda - Todos los errores reservados.
 
 Esta aplicación revive el clásico juego de lápiz y papel 'El Ahorcado'.
@@ -15,15 +15,15 @@ En **linux**, según la distribución, el paquete de la versión libre puede rec
 
 Esta aplicación utiliza tecnología **JavaFX** combinada con Java para presentar la interfaz gráfica de la aplicación. Actualmente JavaFX forma parte de Java SE de Oracle pero no está integrado completamente en OpenJDK, por lo que si utiliza OpenJDK tendrá que instalarlo de manera independiente.
 
-Igual que OpenJDK, existe una versión libre de JavaFx: [**OpenJFX**](https://wiki.openjdk.java.net/display/OpenJFX/Main), que al igual que OpenJDK es software libre bajo licencia GPL.
+Como OpenJDK, existe una versión libre de JavaFx: [**OpenJFX**](https://wiki.openjdk.java.net/display/OpenJFX/Main), que al igual que OpenJDK es software libre bajo licencia GPL.
 
 Puede encontrar OpenJFX en los repositorios de la mayoría de distribuciones linux empaquetado bajo distintos nombres, como openjfx-8, openjfx o java-openjfx.
 
 ## EJECUTAR
 
-La aplicación no instala nada en tu sistema, simplemente ejecuta el archivo jar para empezar a jugar.
+La aplicación no se instala en tu sistema, simplemente ejecuta el archivo jar para empezar a jugar.
 
-Descarga el archivo **Ahorcado.zip**, extrae su contenido y ejecuta el archivo **Ahorcado.jar**. Si no se inicia con doble clic del ratón, desde consola ejecuta este comando desde el directorio descomprimido:
+Descarga y ejecuta el archivo **Ahorcado.jar**. Si no se inicia con doble clic del ratón, desde consola ejecuta este comando desde el directorio donde se encuentra:
 
 `java -jar Ahorcado.jar`
 
